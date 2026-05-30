@@ -303,39 +303,26 @@
   </div>
 
   <script>
-    // --- SAMPLE DATA (Pexels API ready – replace with your key) ---
-    // For now, using Picsum Photos + static categories so the site works out of the box.
-    const categories = ['nature','city','abstract','space','technology'];
-    const titles = ['Crystal Lake','Neon City','Fluid Dreams','Galaxy','Forest Mist',
-                    'Ocean Waves','Cyberpunk','Aurora','Desert','Lava','Ice','Night Sky',
-                    'Circuit Board','Mountain Peak','Twilight'];
-    let wallpapers = [];
-    for (let i = 0; i < 60; i++) {
-      const cat = categories[Math.floor(Math.random() * categories.length)];
-      wallpapers.push({
-        id: i,
-        title: titles[Math.floor(Math.random() * titles.length)] + ' ' + (i+1),
-        category: cat,
-        thumb: `https://picsum.photos/seed/${i}/400/600`,
-        full: `https://picsum.photos/seed/${i}/1920/1080`,
-        resolution: '1920x1080'
-      });
-    }
+    // --- REAL PEXELS 4K WALLPAPERS (free API) ---
+const PEXELS_API_KEY = 'TaEBNLGZcLgnvJdt1N8aoqoYWFIrHpGrc6nRE2LhcEHhXpoN2T8qIRfS'; // <-- paste your key inside the quotes
+const query = '4k wallpaper'; // you can change this to any keyword
 
-    // --- STATE ---
-    let currentCategory = 'all';
-    let searchQuery = '';
-    let visibleCount = 12;
-    let filteredWallpapers = [...wallpapers];
-
-    // --- DOM REFS ---
-    const grid = document.getElementById('wallpaperGrid');
-    const searchInput = document.getElementById('searchInput');
-    const categorySelect = document.getElementById('categoryFilter');
-    const loadMoreBtn = document.getElementById('loadMoreBtn');
-    const filterBtns = document.querySelectorAll('.filter-btn');
-
-    // --- RENDER ---
+async function fetchPexelsWallpapers() {
+  const res = await fetch(`https://api.pexels.com/v1/search?query=${query}&per_page=30`, {
+    headers: { Authorization: PEXELS_API_KEY }
+  });
+  const data = await res.json();
+  wallpapers = data.photos.map((p, i) => ({
+    id: i,
+    title: p.photographer + ' — ' + (p.alt || 'Pexels'),
+    category: 'all', // Pexels doesn't give categories, so we use 'all' for now
+    thumb: p.src.medium,
+    full: p.src.original,
+    resolution: '4K'
+  }));
+  render();
+}
+fetchPexelsWallpapers();
     function render() {
       // Filter by category
       let filtered = wallpapers;
