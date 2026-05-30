@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VoidWerk — 4K Wallpapers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* ----- LIQUID GLASS THEME ----- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0b14;
+      color: #f0f0f0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* --- Blob Animation --- */
+    .blob-container {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0.5;
+      animation: blobFloat 25s infinite alternate ease-in-out;
+    }
+    .blob:nth-child(1) {
+      background: #4338ca;
+      width: 400px; height: 400px;
+      top: -100px; left: -100px;
+    }
+    .blob:nth-child(2) {
+      background: #7c3aed;
+      width: 500px; height: 500px;
+      bottom: -150px; right: -150px;
+      animation-duration: 30s;
+      animation-delay: -10s;
+    }
+    .blob:nth-child(3) {
+      background: #06b6d4;
+      width: 350px; height: 350px;
+      top: 50%; left: 70%;
+      transform: translate(-50%, -50%);
+      animation-duration: 20s;
+      animation-delay: -5s;
+    }
+    @keyframes blobFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(120px, -80px) scale(1.2); }
+      66% { transform: translate(-70px, 90px) scale(0.8); }
+      100% { transform: translate(60px, -40px) scale(1.1); }
+    }
+
+    /* --- Glassmorphism Base --- */
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    /* --- Header --- */
+    header {
+      position: relative;
+      z-index: 2;
+      padding: 32px 20px 20px;
+      text-align: center;
+    }
+    .logo {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+    .tagline {
+      font-weight: 300;
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 24px;
+    }
+
+    /* --- Controls --- */
+    .controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      max-width: 720px;
+      margin: 0 auto 20px;
+      padding: 16px 24px;
+    }
+    .controls input, .controls select {
+      flex: 1 1 200px;
+      padding: 12px 20px;
+      border-radius: 40px;
+      border: none;
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(8px);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: 0.3s;
+    }
+    .controls input::placeholder { color: rgba(255,255,255,0.4); }
+    .controls input:focus, .controls select:focus {
+      background: rgba(255,255,255,0.12);
+      border-color: #6366f1;
+    }
+    .controls select option { background: #16162a; }
+
+    /* --- Filter Buttons --- */
+    .filter-buttons {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-bottom: 28px;
+    }
+    .filter-btn {
+      padding: 8px 22px;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(4px);
+      color: #aaa;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(99, 102, 241, 0.25);
+      color: #fff;
+      border-color: #6366f1;
+    }
+
+    /* --- Wallpaper Grid --- */
+    .grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      padding: 0 20px 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .card {
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+    .card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      border-radius: 20px 20px 0 0;
+    }
+    .card-info {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
+    }
+    .card-meta {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+    }
+    .download-btn {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 30px;
+      padding: 6px 16px;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .download-btn:hover {
+      background: #6366f1;
+      border-color: #6366f1;
+    }
+
+    /* --- Load More --- */
+    .load-more-container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 10px 20px 40px;
+    }
+    #loadMoreBtn {
+      padding: 14px 48px;
+      border-radius: 40px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    #loadMoreBtn:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: #6366f1;
+    }
+
+    /* --- Scrollbar --- */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0b0b14; }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+
+    /* --- Responsive --- */
+    @media (max-width: 640px) {
+      .grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+      .logo { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="blob-container">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+  </div>
+
+  <header>
+    <div class="logo">VoidWerk</div>
+    <div class="tagline">4K wallpapers • premium glass</div>
+    <div class="controls glass">
+      <input type="text" id="searchInput" placeholder="Search wallpapers..." />
+      <select id="categoryFilter">
+        <option value="all">All</option>
+        <option value="nature">Nature</option>
+        <option value="city">City</option>
+        <option value="abstract">Abstract</option>
+        <option value="space">Space</option>
+        <option value="technology">Technology</option>
+      </select>
+    </div>
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-category="all">All</button>
+      <button class="filter-btn" data-category="nature">Nature</button>
+      <button class="filter-btn" data-category="city">City</button>
+      <button class="filter-btn" data-category="abstract">Abstract</button>
+      <button class="filter-btn" data-category="space">Space</button>
+      <button class="filter-btn" data-category="technology">Technology</button>
+    </div>
+  </header>
+
+  <div class="grid" id="wallpaperGrid"></div>
+
+  <div class="load-more-container">
+    <button id="loadMoreBtn" class="glass">Load More</button>
+  </div>
+
+  <script>
+    // --- SAMPLE DATA (Pexels API ready – replace with your key) ---
+    // For now, using Picsum Photos + static categories so the site works out of the box.
+    const categories = ['nature','city','abstract','space','technology'];
+    const titles = ['Crystal Lake','Neon City','Fluid Dreams','Galaxy','Forest Mist',
+                    'Ocean Waves','Cyberpunk','Aurora','Desert','Lava','Ice','Night Sky',
+                    'Circuit Board','Mountain Peak','Twilight'];
+    let wallpapers = [];
+    for (let i = 0; i < 60; i++) {
+      const cat = categories[Math.floor(Math.random() * categories.length)];
+      wallpapers.push({
+        id: i,
+        title: titles[Math.floor(Math.random() * titles.length)] + ' ' + (i+1),
+        category: cat,
+        thumb: `https://picsum.photos/seed/${i}/400/600`,
+        full: `https://picsum.photos/seed/${i}/1920/1080`,
+        resolution: '1920x1080'
+      });
+    }
+
+    // --- STATE ---
+    let currentCategory = 'all';
+    let searchQuery = '';
+    let visibleCount = 12;
+    let filteredWallpapers = [...wallpapers];
+
+    // --- DOM REFS ---
+    const grid = document.getElementById('wallpaperGrid');
+    const searchInput = document.getElementById('searchInput');
+    const categorySelect = document.getElementById('categoryFilter');
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    // --- RENDER ---
+    function render() {
+      // Filter by category
+      let filtered = wallpapers;
+      if (currentCategory !== 'all') {
+        filtered = filtered.filter(w => w.category === currentCategory);
+      }
+      // Filter by search
+      if (searchQuery.trim() !== '') {
+        filtered = filtered.filter(w => w.title.toLowerCase().includes(searchQuery.toLowerCase()));
+      }
+      filteredWallpapers = filtered;
+      
+      const visible = filtered.slice(0, visibleCount);
+      grid.innerHTML = visible.map(w => `
+        <div class="card" data-category="${w.category}">
+          <img src="${w.thumb}" loading="lazy" alt="${w.title}" />
+          <div class="card-info">
+            <span class="card-title">${w.title}</span>
+            <span class="card-meta">${w.resolution}</span>
+            <button class="download-btn" onclick="downloadWallpaper('${w.full}', '${w.title}.jpg')">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>
+        </div>
+      `).join('');
+      
+      // Show/hide Load More
+      loadMoreBtn.style.display = visibleCount >= filtered.length ? 'none' : 'block';
+    }
+
+    // --- DOWNLOAD ---
+    function downloadWallpaper(url, filename) {
+      fetch(url)
+        .then(res => res.blob())
+        .then(blob => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(a.href);
+        })
+        .catch(() => {
+          alert('Download failed. Try right-click + Save Image As.');
+        });
+    }
+
+    // --- EVENTS ---
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      visibleCount = 12;
+      render();
+    });
+
+    categorySelect.addEventListener('change', (e) => {
+      currentCategory = e.target.value;
+      visibleCount = 12;
+      filterBtns.forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.filter-btn[data-category="${currentCategory}"]`)?.classList.add('active');
+      render();
+    });
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.category;
+        categorySelect.value = currentCategory;
+        visibleCount = 12;
+        render();
+      });
+    });
+
+    loadMoreBtn.addEventListener('click', () => {
+      visibleCount += 8;
+      render();
+    });
+
+    // --- INIT ---
+    render();
+  </script>
+</body>
+</html>
